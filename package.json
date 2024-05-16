@@ -1,7 +1,41 @@
 {
-  "name": "is-animated",
-  "version": "2.0.2",
-  "description": "Detects animated images",
+  "name": "@frsource/is-animated",
+  "version": "1.0.0",
+  "description": "Detects animated images in browser & node. Supports GIT, APNG & WebP",
+  "sideEffects": false,
+  "source": "src/index.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.modern.mjs"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.modern.mjs",
+  "unpkg": "./dist/index.umd.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "start": "pnpm clean && microbundle watch",
+    "build": "pnpm clean && microbundle --compress",
+    "lint": "eslint '**/*.ts' --ignore-pattern '**/*.d.ts'",
+    "lint:fix": "pnpm lint --fix",
+    "lint:ci": "pnpm lint --max-warnings 0",
+    "prettify": "prettier --write src",
+    "prettify:ci": "prettier --check src",
+    "release": "semantic-release",
+    "release:ci": "pnpm release --yes",
+    "release:test": "pnpm release --no-git-tag-version --no-push --skip-npm",
+    "clean": "pnpm rimraf \"dist/**/*\"",
+    "test": "pnpm vitest",
+    "coverage": "pnpm vitest --coverage"
+  },
+  "homepage": "https://github.com/FRSOURCE/is-animated/",
+  "bugs": {
+    "url": "https://github.com/FRSOURCE/is-animated/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FRSOURCE/is-animated.git"
+  },
   "keywords": [
     "animated",
     "animated gif",
@@ -12,56 +46,35 @@
     "apng",
     "gif",
     "png",
-    "webp"
+    "webp",
+    "lightweight",
+    "nodejs",
+    "node",
+    "browser"
   ],
-  "homepage": "https://github.com/qzb/is-animated",
-  "bugs": {
-    "url": "https://github.com/qzb/is-animated/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/qzb/is-animated.git"
-  },
+  "author": "Jakub Freisler <jakub@frsource.org>",
   "license": "MIT",
-  "author": "Józef Sokołowski <j.k.sokolowski@gmail.com>",
-  "main": "lib/index.js",
-  "files": [
-    "lib"
-  ],
-  "scripts": {
-    "commit": "git-cz",
-    "commit:retry": "git-cz --retry",
-    "commitmsg": "commitlint -e",
-    "release": "standard-version",
-    "test": "standard && tape test/*.js | tap-spec",
-    "test-ci": "standard && istanbul cover --report lcovonly -- tape test/*.js | tap-spec"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/@commitlint/prompt"
-    }
-  },
   "devDependencies": {
-    "@commitlint/cli": "^16.0.2",
-    "@commitlint/config-conventional": "^7.5.0",
-    "@commitlint/prompt": "^16.0.0",
-    "@commitlint/travis-cli": "^16.0.2",
-    "commitizen": "^4.2.4",
-    "husky": "^1.3.1",
-    "istanbul": "^0.4.3",
-    "standard": "^15.0.1",
-    "standard-version": "^9.3.2",
-    "tap-spec": "^2.2.2",
-    "tape": "^4.0.0"
+    "@frsource/eslint-config": "1.8.0",
+    "@frsource/prettier-config": "1.5.0",
+    "@frsource/semantic-release-config": "1.1.0",
+    "@types/node": "^20.12.12",
+    "@vitest/coverage-v8": "^1.6.0",
+    "eslint": "9.1.0",
+    "microbundle": "0.15.1",
+    "prettier": "3.2.5",
+    "rimraf": "5.0.0",
+    "semantic-release": "23.0.8",
+    "typescript": "5.4.5",
+    "vitest": "^1.6.0"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  }
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@8.15.8",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "funding": "https://buymeacoffee.com/frsource"
 }
