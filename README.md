@@ -9,7 +9,7 @@
   <a href="https://github.com/semantic-release/semantic-release">
     <img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release badge">
   </a>
-  <a href="https://github.com/FRSOURCE/is-animated/blob/master/LICENSE">
+  <a href="https://github.com/FRSOURCE/is-animated/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/FRSOURCE/is-animated" alt="license MIT badge">
   </a>
 </p>
@@ -88,7 +88,7 @@ Don’t hesitate to ask a question directly on the [discussion board](https://gi
 
 ## Changelog
 
-Changes for every release are documented in the [release notes](https://github.com/FRSOURCE/is-animated/releases) and [CHANGELOG file](https://github.com/FRSOURCE/is-animated/tree/master/CHANGELOG.md).
+Changes for every release are documented in the [release notes](https://github.com/FRSOURCE/is-animated/releases) and [CHANGELOG file](https://github.com/FRSOURCE/is-animated/tree/main/CHANGELOG.md).
 
 ## License
 
