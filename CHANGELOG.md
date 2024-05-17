@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/FRSOURCE/is-animated/compare/v1.0.0...v1.0.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* prettier configuration ([04bfd06](https://github.com/FRSOURCE/is-animated/commit/04bfd06eeca8bd0ba4267aa7d3fa220e7ebacfc0))
+
 # 1.0.0 (2024-05-17)
 
 
