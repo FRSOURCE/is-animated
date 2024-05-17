@@ -32,9 +32,9 @@
   <br>
   <i>A simple library for detecting animated images.
     <br>Works under Node and Browser environments!
-    <br>Performant & with small bundle size (less than 1.2kB!)
-    <br>Supports GIF, APNG and WebP images
-    <br>Written completely in <a href="https://www.typescriptlang.org">typescript</a></i>
+    <br>Performant & with small bundle size
+    <br>Supports GIF, APNG and WebP
+    <br>Written completely in <a href="https://www.typescriptlang.org">typescript</a>
     <br>Published under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a> license</i>
   <br>
   <br>
@@ -45,25 +45,39 @@
 ### Installation
 
 ```bash
-npm install @frsource/autoresize-textarea
+npm install @frsource/is-animated
 
-yarn add @frsource/autoresize-textarea
+yarn add @frsource/is-animated
 
-pnpm add @frsource/autoresize-textarea
+pnpm add @frsource/is-animated
 ```
 
-### Modern JS/Typescript
+### Usage in browser
+
+```html
+<input type="file" accept="image/*" />
+```
 
 ```ts
-const fs = require('fs')
-const isAnimated = require('is-animated')
+const input = document.querySelector('input[type="file"]');
 
-const filename = process.argv[2]
+input.addEventListener('change', async function () {
+  const arrayBuffer = await this.files[0].arrayBuffer();
+  const answer = isAnimated(arrayBuffer) ? 'Yes' : 'No';
+  alert(`Is "${this.files[0].name}" animated? ${answer}.`);
+});
+```
 
-fs.readFile(filename, (err, buffer) => {
-  const answer = isAnimated(buffer) ? 'Yes' : 'No'
-  console.log(`Is "${filename}" animated? ${answer}.`)
-})
+### Usage in Node.js
+
+```ts
+import { readFileSync } from 'fs';
+import isAnimated from '@frsource/is-animated';
+
+readFileSync('my-test-file.png', (err, buffer) => {
+  const answer = isAnimated(buffer) ? 'Yes' : 'No';
+  console.log(`Is "my-test-file.png" animated? ${answer}.`);
+});
 ```
 
 For a working example, check out [our demo](https://www.frsource.org/is-animated).
@@ -80,4 +94,4 @@ Changes for every release are documented in the [release notes](https://github.c
 
 [MIT](https://opensource.org/licenses/MIT) @ 2024-present, [Jakub FRS Freisler](https://www.linkedin.com/in/jakub-freisler-03a32138/), [FRSOURCE](https://www.frsource.org/)
 
-Forked from great [qzb](https://github.com/qzb)'s work: [is-animated](https://github.com/qzb/is-animated).
+Forked from [qzb](https://github.com/qzb)'s great library: [is-animated](https://github.com/qzb/is-animated).

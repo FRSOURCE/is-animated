@@ -1,5 +1,4 @@
-
-name: Lint 
+name: Build & Lint 
 on:
   pull_request:
     branches:
@@ -80,3 +79,15 @@ jobs:
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        uses: actions/configure-pages@v5
+      - if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: './docs'
+      - if: ${{ success() && github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
