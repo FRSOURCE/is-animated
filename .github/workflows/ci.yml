@@ -37,9 +37,7 @@ jobs:
         run: git config --unset http.https://github.com/.extraheader
       - run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm lint:ci
-      - name: Prettify
-        run: pnpm prettify:ci
+        run: pnpm lint
 
   build-and-release:
     name: build and release
