@@ -1,11 +1,13 @@
+import type { StandardisedBuffer } from '../types';
+
 /**
  * Returns total length of data blocks sequence
  */
-function getDataBlocksLength(buffer: Buffer, offset: number) {
+function getDataBlocksLength(buffer: StandardisedBuffer, offset: number) {
   let length = 0;
 
-  while (buffer[offset + length]) {
-    length += buffer[offset + length] + 1;
+  while (buffer.at(offset + length)) {
+    length += buffer.at(offset + length) + 1;
   }
 
   return length + 1;
@@ -14,23 +16,21 @@ function getDataBlocksLength(buffer: Buffer, offset: number) {
 /**
  * Checks if buffer contains GIF image
  */
-export const isGIF = (buffer: Buffer) => {
-  const header = buffer.subarray(0, 3).toString('ascii');
-  return header === 'GIF';
-};
+export const isGIF = (buffer: StandardisedBuffer) =>
+  buffer.read(0, 3) === 'GIF';
 
 /**
  * Checks if buffer contains animated GIF image
  */
-export const isAnimated = (buffer: Buffer) => {
-  let hasColorTable, colorTableSize, header;
+export const isAnimated = (buffer: StandardisedBuffer) => {
+  let hasColorTable, colorTableSize;
   let offset = 0;
   let imagesCount = 0;
 
   // Skip header, logical screen descriptor and global color table
 
-  hasColorTable = buffer[10] & 0x80; // 0b10000000
-  colorTableSize = buffer[10] & 0x07; // 0b00000111
+  hasColorTable = buffer.at(10) & 0x80; // 0b10000000
+  colorTableSize = buffer.at(10) & 0x07; // 0b00000111
 
   offset += 6; // skip header
   offset += 7; // skip logical screen descriptor
@@ -39,7 +39,7 @@ export const isAnimated = (buffer: Buffer) => {
   // Find if there is more than one image descriptor
 
   while (imagesCount < 2 && offset < buffer.length) {
-    switch (buffer[offset]) {
+    switch (buffer.at(offset)) {
       // Image descriptor block. According to specification there could be any
       // number of these blocks (even zero). When there is more than one image
       // descriptor browsers will display animation (they shouldn't when there
@@ -47,8 +47,8 @@ export const isAnimated = (buffer: Buffer) => {
       case 0x2c:
         imagesCount += 1;
 
-        hasColorTable = buffer[offset + 9] & 0x80; // 0b10000000
-        colorTableSize = buffer[offset + 9] & 0x07; // 0b00000111
+        hasColorTable = buffer.at(offset + 9) & 0x80; // 0b10000000
+        colorTableSize = buffer.at(offset + 9) & 0x07; // 0b00000111
 
         offset += 10; // skip image descriptor
         offset += hasColorTable ? 3 * Math.pow(2, colorTableSize + 1) : 0; // skip local color table
