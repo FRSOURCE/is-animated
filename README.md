@@ -14,7 +14,7 @@
   </a>
 </p>
 
-<h1 align="center">is-animated - Checks if image is animated 🎞</h1>
+<h1 align="center">is-animated - checks if the image is animated 🎞</h1>
 
 <p align="center">
   <a href="#quick-start">Getting Started</a>
@@ -26,7 +26,6 @@
   <a href="#questions">Have a question or an idea?</a>
   <br>
 </p>
-
 
 <p align="center">
   <br>
@@ -80,7 +79,7 @@ readFileSync('my-test-file.png', (err, buffer) => {
 });
 ```
 
-For a working example, check out [our demo](https://www.frsource.org/is-animated).
+For a working example, check out [our demo](https://www.frsource.org/is-animated#demo).
 
 ## Questions
 
