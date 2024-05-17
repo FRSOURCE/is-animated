@@ -1,68 +1,104 @@
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#111">
-    <meta name="msapplication-TileColor" content="#111">
-    <meta name="application-name" content="is-animated">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#111" />
+    <meta name="msapplication-TileColor" content="#111" />
+    <meta name="application-name" content="is-animated" />
     <title>is-animated - Docs - FRSOURCE</title>
-    <meta name="description" content="@frsource/is-animated - Checks if image is animated 🎞">
-    <meta name="robots" content="index, follow">
-    <link rel="preconnect" href="https://buttons.github.io/">
-    <link rel="preconnect" href="https://unpkg.com/">
-    <meta property="og:title" content="is-animated - FRSOURCE">
-    <meta property="og:description" content="@@frsource/is-animated - Checks if image is animated 🎞">
-    <meta property="og:url" content="https://www.frsource.org/is-animated/">
-    <meta property="og:image" content="https://www.frsource.org/is-animated/demo.jpg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1280">
-    <meta property="og:image:height" content="752">
-    <meta property="og:site_name" content="frsource.org">
-    <meta property="og:type" content="website">
-    <meta property="og:video" content="https://www.frsource.org/is-animated/demo.mp4">
-    <meta property="og:video:type" content="video/mp4">
-    <meta property="og:video:width" content="1280">
-    <meta property="og:video:height" content="752">
+    <meta
+      name="description"
+      content="@frsource/is-animated - Checks if image is animated 🎞"
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="preconnect" href="https://buttons.github.io/" />
+    <link rel="preconnect" href="https://unpkg.com/" />
+    <meta property="og:title" content="is-animated - FRSOURCE" />
+    <meta
+      property="og:description"
+      content="@@frsource/is-animated - Checks if image is animated 🎞"
+    />
+    <meta property="og:url" content="https://www.frsource.org/is-animated/" />
+    <meta
+      property="og:image"
+      content="https://www.frsource.org/is-animated/demo.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="752" />
+    <meta property="og:site_name" content="frsource.org" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:video"
+      content="https://www.frsource.org/is-animated/demo.mp4"
+    />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1280" />
+    <meta property="og:video:height" content="752" />
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="frsource.org">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="frsource.org" />
     <style>
-      textarea { resize: vertical }
+      textarea {
+        resize: vertical;
+      }
       pre[data-lang]::before {
         position: absolute;
         content: attr(data-lang);
-        margin: .25em .25em;
+        margin: 0.25em 0.25em;
         display: block;
-        font-size: .75em;
+        font-size: 0.75em;
         text-align: right;
       }
     </style>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
   <body>
-      <header>
-        <nav>
-          <ul></ul>
-          <ul>
-            <li><a class="github-button" target="_blank" data-color-scheme="no-preference: light; light: light; dark: dark;" href="https://github.com/sponsors/FRSOURCE" data-icon="octicon-heart" aria-label="Sponsor @FRSOURCE on GitHub">Sponsor</a></li>
-            <li><a class="github-button" target="_blank" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" href="https://github.com/FRSOURCE/is-animated" aria-label="View FRSOURCE/is-animated on GitHub">View on GitHub</a></li>
-          </ul>
-        </nav>
-        <hgroup>
-          <h1>is-animated</h1>
-          <p>Checks if image is animated 🎞</p>
-        </hgroup>
-      </header>
+    <header>
+      <nav>
+        <ul></ul>
+        <ul>
+          <li>
+            <a
+              class="github-button"
+              target="_blank"
+              data-color-scheme="no-preference: light; light: light; dark: dark;"
+              href="https://github.com/sponsors/FRSOURCE"
+              data-icon="octicon-heart"
+              aria-label="Sponsor @FRSOURCE on GitHub"
+              >Sponsor</a
+            >
+          </li>
+          <li>
+            <a
+              class="github-button"
+              target="_blank"
+              data-color-scheme="no-preference: light; light: light; dark: dark;"
+              data-size="large"
+              href="https://github.com/FRSOURCE/is-animated"
+              aria-label="View FRSOURCE/is-animated on GitHub"
+              >View on GitHub</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <hgroup>
+        <h1>is-animated</h1>
+        <p>Checks if image is animated 🎞</p>
+      </hgroup>
+    </header>
     <main>
       <section>
         <h2>Installation</h2>
-        <pre><code data-lang="shell">npm install @frsource/is-animated</i>
+        <pre><code data-lang="shell">npm install @frsource/is-animated
 
 yarn add @frsource/is-animated
 
 pnpm add @frsource/is-animated</code></pre>
-
       </section>
       <section>
         <hgroup>
@@ -102,10 +138,16 @@ const answer = isAnimated(buffer) ? 'Yes' : 'No';
 console.log(`Is "my-test-file.png" animated? ${answer}.`);</code></pre>
       </section>
     </main>
-    <hr>
+    <hr />
     <footer>
       <small>
-        Created and maintained by <a  target="_blank" href="https://www.frsource.org/" aria-label="Let us shape your web!">FRSOURCE</a>
+        Created and maintained by
+        <a
+          target="_blank"
+          href="https://www.frsource.org/"
+          aria-label="Let us shape your web!"
+          >FRSOURCE</a
+        >
       </small>
     </footer>
     <script defer src="https://unpkg.com/@frsource/is-animated"></script>

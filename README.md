@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="https://www.npmjs.com/package/@frsource/is-animated">
     <img src="https://img.shields.io/npm/v/@frsource/is-animated" alt="NPM version badge">
@@ -88,6 +87,13 @@ Don’t hesitate to ask a question directly on the [discussion board](https://gi
 ## Changelog
 
 Changes for every release are documented in the [release notes](https://github.com/FRSOURCE/is-animated/releases) and [CHANGELOG file](https://github.com/FRSOURCE/is-animated/tree/main/CHANGELOG.md).
+
+## Development
+
+1. Check out the repository.
+2. Install dependencies using `pnpm i`.
+3. Run `pnpm test` to run the test suite.
+4. Run `pnpm start` and visit `http://localhost:3000` to see the documentation page. You can test the library using the demo section.
 
 ## License
 

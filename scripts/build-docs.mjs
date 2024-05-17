@@ -1,3 +1,5 @@
+/* eslint no-console: "off" */
+
 import { argv } from 'process';
 import { readFileSync, writeFileSync, mkdirSync, cpSync } from 'fs';
 import { join, dirname } from 'path';

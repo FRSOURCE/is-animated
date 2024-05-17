@@ -1,1 +1,1 @@
-export { default } from "@frsource/prettier-config";
+export { default } from '@frsource/prettier-config';
