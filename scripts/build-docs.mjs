@@ -1,6 +1,7 @@
 /* eslint no-console: "off" */
 
 import { argv } from 'process';
+import fastGlob from 'fast-glob';
 import { readFileSync, writeFileSync, mkdirSync, cpSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -15,11 +16,12 @@ const browser = new Browser();
 const page = browser.newPage();
 page.url = 'https://example.com';
 const document = page.mainFrame.document;
-
 if (argv.pop() === '--watch') {
   build();
   chokidar
-    .watch(['scripts/*.tpl.*', './src/**'], { ignoreInitial: true })
+    .watch(fastGlob.globSync(['scripts/*.tpl.*', './src/**']), {
+      ignoreInitial: true,
+    })
     .on('all', (e, path) => {
       console.log(`File ${e}`, path);
       build();
@@ -41,7 +43,7 @@ async function applyShikiToDocs() {
   page.content = readFile(['index.tpl.html']);
 
   await Promise.all(
-    document.body.querySelectorAll('code').map(async (el) => {
+    Array.from(document.body.querySelectorAll('code')).map(async (el) => {
       const div = document.createElement('div');
       const lang = el.dataset.lang ?? 'js';
       div.innerHTML = await codeToHtml(el.textContent, {
