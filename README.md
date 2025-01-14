@@ -13,7 +13,7 @@
   </a>
 </p>
 
-<h1 align="center">is-animated - checks if the image is animated 🎞</h1>
+<h1 align="center">is-animated - check if the image is animated 🎞</h1>
 
 <p align="center">
   <a href="#quick-start">Getting Started</a>
@@ -31,8 +31,8 @@
   <i>A simple library for detecting animated images.
     <br>Works under Node and Browser environments!
     <br>Performant & with small bundle size
-    <br>Supports GIF, APNG and WebP
-    <br>Written completely in <a href="https://www.typescriptlang.org">typescript</a>
+    <br>Supports GIF, PNG, APNG and WebP
+    <br>Fully typed in <a href="https://www.typescriptlang.org">Typescript</a>
     <br>Published under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a> license</i>
   <br>
   <br>
@@ -57,14 +57,19 @@ pnpm add @frsource/is-animated
 ```
 
 ```ts
+import isAnimated from '@frsource/is-animated';
+
 const input = document.querySelector('input[type="file"]');
 
 input.addEventListener('change', async function () {
   const arrayBuffer = await this.files[0].arrayBuffer();
-  const answer = isAnimated(arrayBuffer) ? 'Yes' : 'No';
-  alert(`Is "${this.files[0].name}" animated? ${answer}.`);
+  const answer = isAnimated(arrayBuffer) ? 'IS' : 'IS NOT';
+  alert(`File "${this.files[0].name}" ${answer} animated.`);
 });
 ```
+
+>If you prefer, you can import this library using unpkg:
+>`<script defer src="https://unpkg.com/@frsource/is-animated"></script>`
 
 ### Usage in Node.js
 
@@ -73,10 +78,12 @@ import { readFileSync } from 'fs';
 import isAnimated from '@frsource/is-animated';
 
 readFileSync('my-test-file.png', (err, buffer) => {
-  const answer = isAnimated(buffer) ? 'Yes' : 'No';
-  console.log(`Is "my-test-file.png" animated? ${answer}.`);
+  const answer = isAnimated(buffer) ? 'IS' : 'IS NOT';
+  console.log(`File "my-test-file.png" ${answer} animated.`);
 });
 ```
+
+## Demo
 
 For a working example, check out [our demo](https://www.frsource.org/is-animated#demo).
 

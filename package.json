@@ -3,29 +3,26 @@
   "version": "1.0.2",
   "description": "Detects animated images in browser & node. Supports GIT, APNG & WebP",
   "sideEffects": false,
-  "source": "src/index.ts",
   "exports": {
-    "require": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "default": "./dist/index.modern.mjs"
+    "default": "./src/index.mjs"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.modern.mjs",
-  "unpkg": "./dist/index.umd.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.mjs",
+  "module": "./src/index.mjs",
+  "unpkg": "./dist/is-animated.umd.js",
   "scripts": {
-    "start": "pnpm clean && concurrently \"microbundle watch\" \"node ./scripts/build-docs.mjs --watch\" \"serve docs\"",
-    "build": "pnpm clean && microbundle --compress && node ./scripts/build-docs.mjs",
+    "typecheck": "tsc --project tsconfig.json",
+    "start": "pnpm clean && concurrently \"microbundle watch -i ./src/index.mjs -o docs -f umd\" \"node ./scripts/build-docs.mjs --watch\" \"serve docs\"",
+    "build": "pnpm clean && microbundle -i ./src/index.mjs -o dist -f umd && microbundle -i ./src/index.mjs -o docs -f umd && node ./scripts/build-docs.mjs",
     "lint": "eslint . --max-warnings 0 && prettier --check .",
     "fix": "eslint . --fix && prettier --write .",
     "release": "semantic-release",
     "release:ci": "pnpm release --yes",
     "release:test": "pnpm release --no-git-tag-version --no-push --skip-npm",
-    "clean": "pnpm rimraf \"dist/**/*\"",
+    "clean": "pnpm rimraf dist docs",
     "test": "pnpm vitest",
     "coverage": "pnpm vitest --coverage"
   },
-  "homepage": "https://github.com/FRSOURCE/is-animated/",
+  "homepage": "https://www.frsource.org/is-animated",
   "bugs": {
     "url": "https://github.com/FRSOURCE/is-animated/issues"
   },
@@ -78,7 +75,12 @@
   "packageManager": "pnpm@8.15.8",
   "files": [
     "dist",
+    "src/*.mjs",
+    "src/*/*.mjs",
     "package.json"
   ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "funding": "https://buymeacoffee.com/frsource"
 }

@@ -4,7 +4,7 @@ import { promises as fs } from 'node:fs';
 import { join, extname, basename } from 'node:path';
 import { File } from 'happy-dom';
 import { it, describe } from 'vitest';
-import isAnimated from './index';
+import isAnimated from './index.mjs';
 
 const types = ['gif', 'png', 'webp'];
 const environmentTypes = ['browser', 'nodejs'];

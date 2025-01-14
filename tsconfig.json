@@ -3,9 +3,20 @@
     "target": "ESNext",
     "lib": ["ESNext", "dom"],
     "strict": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "module": "NodeNext",
     "esModuleInterop": true,
-    "moduleResolution": "Node16"
+    "moduleResolution": "Node16",
+    "checkJs": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.spec.ts"]
+  "include": ["src/**/*.mjs", "src/index.mjs"]
 }

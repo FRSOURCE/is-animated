@@ -1,9 +1,11 @@
-import type { StandardisedBuffer } from '../types';
+/** @typedef {import('../types.mjs').StandardisedBuffer} StandardisedBuffer */
 
 /**
  * Returns total length of data blocks sequence
+ * @param {StandardisedBuffer} buffer
+ * @param {number} offset
  */
-function getDataBlocksLength(buffer: StandardisedBuffer, offset: number) {
+function getDataBlocksLength(buffer, offset) {
   let length = 0;
 
   while (buffer.at(offset + length)) {
@@ -15,14 +17,15 @@ function getDataBlocksLength(buffer: StandardisedBuffer, offset: number) {
 
 /**
  * Checks if buffer contains GIF image
+ * @param {StandardisedBuffer} buffer
  */
-export const isGIF = (buffer: StandardisedBuffer) =>
-  buffer.read(0, 3) === 'GIF';
+export const isGIF = (buffer) => buffer.read(0, 3) === 'GIF';
 
 /**
  * Checks if buffer contains animated GIF image
+ * @param {StandardisedBuffer} buffer
  */
-export const isAnimated = (buffer: StandardisedBuffer) => {
+export const isAnimated = (buffer) => {
   let hasColorTable, colorTableSize;
   let offset = 0;
   let imagesCount = 0;

@@ -1,16 +1,19 @@
-import type { StandardisedBuffer } from '../types';
+/** @typedef {import('../types.mjs').StandardisedBuffer} StandardisedBuffer */
 
-export const isPNG = (buffer: StandardisedBuffer) => {
+/** @param {StandardisedBuffer} buffer */
+export const isPNG = (buffer) => {
   const header = buffer.read(0, 8, { encoding: 'hex' });
   return header === '89504e470d0a1a0a'; // \211 P N G \r \n \032 'n
 };
 
-export const isAnimated = (buffer: StandardisedBuffer) => {
+/** @param {StandardisedBuffer} buffer */
+export const isAnimated = (buffer) => {
   let hasACTL = false;
   let hasIDAT = false;
   let hasFDAT = false;
 
-  let previousChunkType: string | undefined;
+  /** @type {string | undefined} */
+  let previousChunkType;
 
   let offset = 8;
 

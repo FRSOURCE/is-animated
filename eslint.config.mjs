@@ -1,10 +1,10 @@
 import globals from 'globals';
 import { typescript } from '@frsource/eslint-config';
 
-/** @type {import("eslint").Linter.FlatConfig[]} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [
   ...typescript,
-  { ignores: ['**/dist', '**/coverage', '**/node_modules'] },
+  { ignores: ['**/dist', '**/coverage', '**/node_modules', '**/docs'] },
   { languageOptions: { globals: globals.node } },
   {
     files: ['scripts/index.tpl.js'],
