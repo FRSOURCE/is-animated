@@ -68,8 +68,8 @@ input.addEventListener('change', async function () {
 });
 ```
 
->If you prefer, you can import this library using unpkg:
->`<script defer src="https://unpkg.com/@frsource/is-animated"></script>`
+> If you prefer, you can import this library using unpkg:
+> `<script defer src="https://unpkg.com/@frsource/is-animated"></script>`
 
 ### Usage in Node.js
 
