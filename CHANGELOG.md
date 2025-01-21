@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/FRSOURCE/is-animated/compare/v1.0.3...v1.0.4) (2025-01-21)
+
+
+### Bug Fixes
+
+* add missing typings ([8cd9731](https://github.com/FRSOURCE/is-animated/commit/8cd97314a05ef7ee0929cfc42573747971279a68))
+
 ## [1.0.3](https://github.com/FRSOURCE/is-animated/compare/v1.0.2...v1.0.3) (2025-01-14)
 
 
