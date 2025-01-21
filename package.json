@@ -4,15 +4,17 @@
   "description": "Detects animated images in browser & node. Supports GIT, APNG & WebP",
   "sideEffects": false,
   "exports": {
-    "default": "./src/index.mjs"
+    "default": "./src/index.mjs",
+    "types": "./dist/index.d.mts"
   },
   "main": "./src/index.mjs",
-  "module": "./src/index.mjs",
+  "types": "./dist/index.d.mts",
+  "module": "./dist/index.mjs",
   "unpkg": "./dist/is-animated.umd.js",
   "scripts": {
-    "typecheck": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
     "start": "pnpm clean && concurrently \"microbundle watch -i ./src/index.mjs -o docs -f umd\" \"node ./scripts/build-docs.mjs --watch\" \"serve docs\"",
-    "build": "pnpm clean && microbundle -i ./src/index.mjs -o dist -f umd && microbundle -i ./src/index.mjs -o docs -f umd && node ./scripts/build-docs.mjs",
+    "build": "pnpm clean && microbundle -i ./src/index.mjs -o dist -f umd --no-sourcemap && microbundle -i ./src/index.mjs -o docs -f umd && node ./scripts/build-docs.mjs && tsc --project tsconfig.json --declaration --emitDeclarationOnly && node ./scripts/postbuild.mjs",
     "lint": "eslint . --max-warnings 0 && prettier --check .",
     "fix": "eslint . --fix && prettier --write .",
     "release": "semantic-release",

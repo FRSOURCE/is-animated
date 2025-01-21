@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "outDir": "./dist",
     "lib": ["ESNext", "dom"],
     "strict": true,
     "strictFunctionTypes": true,
@@ -15,8 +16,7 @@
     "moduleResolution": "Node16",
     "checkJs": true,
     "allowJs": true,
-    "skipLibCheck": true,
-    "noEmit": true
+    "skipLibCheck": true
   },
   "include": ["src/**/*.mjs", "src/index.mjs"]
 }
