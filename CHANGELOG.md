@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/FRSOURCE/is-animated/compare/v1.0.4...v1.0.5) (2025-02-04)
+
+
+### Bug Fixes
+
+* wrong package.json entrypoint ([dbb185f](https://github.com/FRSOURCE/is-animated/commit/dbb185fecbd400cdad08f847c4b0e48e26edb469))
+
 ## [1.0.4](https://github.com/FRSOURCE/is-animated/compare/v1.0.3...v1.0.4) (2025-01-21)
 
 
