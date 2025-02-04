@@ -9,7 +9,7 @@
   },
   "main": "./src/index.mjs",
   "types": "./dist/index.d.mts",
-  "module": "./dist/index.mjs",
+  "module": "./src/index.mjs",
   "unpkg": "./dist/is-animated.umd.js",
   "scripts": {
     "typecheck": "tsc --project tsconfig.json --noEmit",
