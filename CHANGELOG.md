@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/FRSOURCE/is-animated/compare/v1.0.5...v1.1.0) (2026-06-30)
+
+
+### Features
+
+* add AVIF support ([5eca61b](https://github.com/FRSOURCE/is-animated/commit/5eca61bb983b8f64e1273c237cdb4b42acd34690))
+
 ## [1.0.5](https://github.com/FRSOURCE/is-animated/compare/v1.0.4...v1.0.5) (2025-02-04)
 
 
