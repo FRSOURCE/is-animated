@@ -1,7 +1,7 @@
 {
   "name": "@frsource/is-animated",
   "version": "1.0.5",
-  "description": "Detects animated images in browser & node. Supports GIT, APNG & WebP",
+  "description": "Detects animated images in browser & node. Supports GIF, APNG, WebP & AVIF",
   "sideEffects": false,
   "exports": {
     "default": "./src/index.mjs",
@@ -39,8 +39,10 @@
     "animated image",
     "animated png",
     "animated webp",
+    "animated avif",
     "animation",
     "apng",
+    "avif",
     "gif",
     "png",
     "webp",

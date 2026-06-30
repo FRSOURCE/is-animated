@@ -6,7 +6,7 @@ import { File } from 'happy-dom';
 import { it, describe } from 'vitest';
 import isAnimated from './index.mjs';
 
-const types = ['gif', 'png', 'webp'];
+const types = ['gif', 'png', 'webp', 'avif'];
 const environmentTypes = ['browser', 'nodejs'];
 const TEST_DIR = join(__dirname, '..', '__tests__');
 

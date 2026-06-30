@@ -31,7 +31,7 @@
   <i>A simple library for detecting animated images.
     <br>Works under Node and Browser environments!
     <br>Performant & with small bundle size
-    <br>Supports GIF, PNG, APNG and WebP
+    <br>Supports GIF, PNG, APNG, WebP and AVIF
     <br>Fully typed in <a href="https://www.typescriptlang.org">Typescript</a>
     <br>Published under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a> license</i>
   <br>

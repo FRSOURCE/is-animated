@@ -1,6 +1,7 @@
 import * as gif from './utils/gif.mjs';
 import * as webp from './utils/webp.mjs';
 import * as png from './utils/png.mjs';
+import * as avif from './utils/avif.mjs';
 
 /** @typedef {import('./types.mjs').NodeBufferOrArrayBuffer} NodeBufferOrArrayBuffer */
 /** @typedef {import('./types.mjs').StandardisedBuffer} StandardisedBuffer */
@@ -55,6 +56,8 @@ export default function isAnimated(buffer) {
   if (png.isPNG(standardisedBuffer)) return png.isAnimated(standardisedBuffer);
   if (webp.isWebp(standardisedBuffer))
     return webp.isAnimated(standardisedBuffer);
+  if (avif.isAvif(standardisedBuffer))
+    return avif.isAnimated(standardisedBuffer);
 
   return false;
 }
