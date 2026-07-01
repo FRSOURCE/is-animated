@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "outDir": "./dist",
+    "rootDir": "./src",
     "lib": ["ESNext", "dom"],
     "strict": true,
     "strictFunctionTypes": true,
