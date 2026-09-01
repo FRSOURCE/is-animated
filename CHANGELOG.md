@@ -1,3 +1,13 @@
+# [2.0.0](https://github.com/FRSOURCE/is-animated/compare/v1.1.29...v2.0.0) (2026-09-01)
+
+
+* feat!: placehoder for version 2.0.0 ([d71e9c3](https://github.com/FRSOURCE/is-animated/commit/d71e9c32938c0e52c886324f4cab1dd2bf666424))
+
+
+### BREAKING CHANGES
+
+* placeholder for version 2.0.0
+
 ## [1.1.29](https://github.com/FRSOURCE/is-animated/compare/v1.1.28...v1.1.29) (2026-08-31)
 
 ## [1.1.28](https://github.com/FRSOURCE/is-animated/compare/v1.1.27...v1.1.28) (2026-08-24)
