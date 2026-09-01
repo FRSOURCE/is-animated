@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/FRSOURCE/is-animated/compare/v2.0.0...v3.0.0) (2026-09-01)
+
+
+### Features
+
+* use @frsource/is-animated as a new source for library ([b77907f](https://github.com/FRSOURCE/is-animated/commit/b77907f7ea2e86ef7dcc1060179260dae54027a5))
+
+
+### BREAKING CHANGES
+
+* drop support for Node 20
+* drops support for CommonJS, only ESM modules supported from now on
+
 # [2.0.0](https://github.com/FRSOURCE/is-animated/compare/v1.1.29...v2.0.0) (2026-09-01)
 
 
