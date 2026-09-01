@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://www.npmjs.com/package/@frsource/is-animated">
-    <img src="https://img.shields.io/npm/v/@frsource/is-animated" alt="NPM version badge">
+  <a href="https://www.npmjs.com/package/is-animated">
+    <img src="https://img.shields.io/npm/v/is-animated" alt="NPM version badge">
   </a>
-  <a href="https://bundlejs.com/?q=%40frsource%2Fis-animated">
-    <img src="https://deno.bundlejs.com/badge?q=@frsource/is-animated" alt="GZIP size calculated by bundlejs.com">
+  <a href="https://bundlejs.com/?q=is-animated">
+    <img src="https://deno.bundlejs.com/badge?q=is-animated" alt="GZIP size calculated by bundlejs.com">
   </a>
   <a href="https://github.com/semantic-release/semantic-release">
     <img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release badge">
@@ -38,16 +38,20 @@
   <br>
 </p>
 
+> On 01.09.2026 `is-animated` library got massive overhaul and switched the repository it's built from (we're now using fork created by [FRSOURCE team](https://www.frsource.org)).
+>
+> For more information, see [Migration note](#migration-from-2xx).
+
 ## Quick start
 
 ### Installation
 
 ```bash
-npm install @frsource/is-animated
+npm install is-animated
 
-yarn add @frsource/is-animated
+yarn add is-animated
 
-pnpm add @frsource/is-animated
+pnpm add is-animated
 ```
 
 ### Usage in browser
@@ -57,7 +61,7 @@ pnpm add @frsource/is-animated
 ```
 
 ```ts
-import isAnimated from '@frsource/is-animated';
+import isAnimated from 'is-animated';
 
 const input = document.querySelector('input[type="file"]');
 
@@ -69,13 +73,13 @@ input.addEventListener('change', async function () {
 ```
 
 > If you prefer, you can import this library using unpkg:
-> `<script defer src="https://unpkg.com/@frsource/is-animated"></script>`
+> `<script defer src="https://unpkg.com/is-animated"></script>`
 
 ### Usage in Node.js
 
 ```ts
 import { readFileSync } from 'fs';
-import isAnimated from '@frsource/is-animated';
+import isAnimated from 'is-animated';
 
 readFileSync('my-test-file.png', (err, buffer) => {
   const answer = isAnimated(buffer) ? 'IS' : 'IS NOT';
@@ -95,6 +99,22 @@ Don’t hesitate to ask a question directly on the [discussion board](https://gi
 
 Changes for every release are documented in the [release notes](https://github.com/FRSOURCE/is-animated/releases) and [CHANGELOG file](https://github.com/FRSOURCE/is-animated/tree/main/CHANGELOG.md).
 
+## Migration from 2.x.x
+
+On 01.09.2026 the library got upgraded using source from [FRSOURCE fork](https://github.com/FRSOURCE/is-animated) which also became the new maintenance team!
+
+Version 3:
+
+- adds support for running `is-animated` under browser environment,
+- adds support for AVIF format,
+- adds support for ESM modules (.mjs),
+- drops support for CommonJS,
+- drops support for Node below version 20.
+
+Migration path consists of two things: migrate to Node.js >= 20 and switch from CommonJS to ESM.
+
+Everything else (whole API) stays the same. Enjoy!
+
 ## Development
 
 1. Check out the repository.
@@ -105,5 +125,7 @@ Changes for every release are documented in the [release notes](https://github.c
 ## License
 
 [MIT](https://opensource.org/licenses/MIT) @ 2024-present, [Jakub FRS Freisler](https://www.linkedin.com/in/jakub-freisler-03a32138/), [FRSOURCE](https://www.frsource.org/)
+
+[MIT](https://opensource.org/licenses/MIT) @ 2019-2024, [Józef Sokołowski](https://github.com/qzb)
 
 Forked from [qzb](https://github.com/qzb)'s great library: [is-animated](https://github.com/qzb/is-animated).
