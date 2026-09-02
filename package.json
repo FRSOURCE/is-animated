@@ -12,6 +12,7 @@
   "module": "./src/index.mjs",
   "unpkg": "./dist/is-animated.umd.js",
   "scripts": {
+    "benchmark": "node --expose-gc benchmark/index.mjs",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "start": "pnpm clean && concurrently \"microbundle watch -i ./src/index.mjs -o docs -f umd\" \"node ./scripts/build-docs.mjs --watch\" \"serve docs\"",
     "build": "pnpm clean && microbundle -i ./src/index.mjs -o dist -f umd --no-sourcemap && microbundle -i ./src/index.mjs -o docs -f umd && node ./scripts/build-docs.mjs && tsc --project tsconfig.json --declaration --emitDeclarationOnly && node ./scripts/postbuild.mjs",
