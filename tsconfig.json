@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["ESNext", "dom"],
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "moduleResolution": "Node16",
+    "checkJs": true,
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.mjs", "src/index.mjs"]
+}

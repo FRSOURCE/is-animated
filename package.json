@@ -1,67 +1,94 @@
 {
   "name": "is-animated",
-  "version": "2.0.2",
-  "description": "Detects animated images",
+  "version": "3.0.0",
+  "description": "Detects animated images in browser & node. Supports GIF, APNG, WebP & AVIF",
+  "sideEffects": false,
+  "exports": {
+    "default": "./src/index.mjs",
+    "types": "./dist/index.d.mts"
+  },
+  "main": "./src/index.mjs",
+  "types": "./dist/index.d.mts",
+  "module": "./src/index.mjs",
+  "unpkg": "./dist/is-animated.umd.js",
+  "scripts": {
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "start": "pnpm clean && concurrently \"microbundle watch -i ./src/index.mjs -o docs -f umd\" \"node ./scripts/build-docs.mjs --watch\" \"serve docs\"",
+    "build": "pnpm clean && microbundle -i ./src/index.mjs -o dist -f umd --no-sourcemap && microbundle -i ./src/index.mjs -o docs -f umd && node ./scripts/build-docs.mjs && tsc --project tsconfig.json --declaration --emitDeclarationOnly && node ./scripts/postbuild.mjs",
+    "lint": "eslint . --max-warnings 0 && prettier --check .",
+    "fix": "eslint . --fix && prettier --write .",
+    "release": "semantic-release",
+    "release:ci": "pnpm release --yes",
+    "release:test": "pnpm release --no-git-tag-version --no-push --skip-npm",
+    "clean": "pnpm rimraf dist docs",
+    "test": "pnpm vitest",
+    "test:ci": "pnpm vitest run --coverage",
+    "coverage": "pnpm vitest --coverage"
+  },
+  "homepage": "https://www.frsource.org/is-animated",
+  "bugs": {
+    "url": "https://github.com/FRSOURCE/is-animated/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FRSOURCE/is-animated.git"
+  },
   "keywords": [
     "animated",
     "animated gif",
     "animated image",
     "animated png",
     "animated webp",
+    "animated avif",
     "animation",
     "apng",
+    "avif",
     "gif",
     "png",
-    "webp"
+    "webp",
+    "lightweight",
+    "nodejs",
+    "node",
+    "browser"
   ],
-  "homepage": "https://github.com/qzb/is-animated",
-  "bugs": {
-    "url": "https://github.com/qzb/is-animated/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/qzb/is-animated.git"
-  },
+  "author": "Jakub Freisler <jakub@frsource.org> (http://frsource.org)",
+  "contributors": [
+    "Józef Sokołowski <j.k.sokolowski@gmail.com> (https://github.com/qzb)"
+  ],
   "license": "MIT",
-  "author": "Józef Sokołowski <j.k.sokolowski@gmail.com>",
-  "main": "lib/index.js",
-  "files": [
-    "lib"
-  ],
-  "scripts": {
-    "commit": "git-cz",
-    "commit:retry": "git-cz --retry",
-    "commitmsg": "commitlint -e",
-    "release": "standard-version",
-    "test": "standard && tape test/*.js | tap-spec",
-    "test-ci": "standard && istanbul cover --report lcovonly -- tape test/*.js | tap-spec"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/@commitlint/prompt"
-    }
-  },
   "devDependencies": {
-    "@commitlint/cli": "^16.0.2",
-    "@commitlint/config-conventional": "^7.5.0",
-    "@commitlint/prompt": "^16.0.0",
-    "@commitlint/travis-cli": "^16.0.2",
-    "commitizen": "^4.2.4",
-    "husky": "^1.3.1",
-    "istanbul": "^0.4.3",
-    "standard": "^15.0.1",
-    "standard-version": "^9.3.2",
-    "tap-spec": "^2.2.2",
-    "tape": "^4.0.0"
+    "@frsource/eslint-config": "1.85.9",
+    "@frsource/prettier-config": "1.47.8",
+    "@frsource/semantic-release-config": "1.116.16",
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^4.0.0",
+    "chokidar": "^5.0.0",
+    "concurrently": "^10.0.0",
+    "eslint": "10.9.1",
+    "fast-glob": "^3.3.3",
+    "globals": "^17.0.0",
+    "happy-dom": "20.12.0",
+    "microbundle": "0.15.1",
+    "prettier": "3.9.6",
+    "rimraf": "6.1.3",
+    "semantic-release": "25.0.9",
+    "serve": "14.2.6",
+    "shiki": "4.4.3",
+    "typescript": "6.0.3",
+    "vitest": "4.1.11"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  }
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@11.24.0",
+  "files": [
+    "dist",
+    "src/*.mjs",
+    "src/*/*.mjs",
+    "package.json"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "funding": "https://buymeacoffee.com/frsource"
 }

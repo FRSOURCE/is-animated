@@ -1,64 +1,150 @@
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
-### [2.0.2](https://github.com/qzb/is-animated/compare/v2.0.0...v2.0.2) (2022-01-13)
-
-
-### Bug Fixes
-
-* apng files with multiple IDAT/fdAT chunks in single frame ([69dad3c](https://github.com/qzb/is-animated/commit/69dad3cdf9622cc0bde4ee8c716366b0eef7e627)), closes [#16](https://github.com/qzb/is-animated/issues/16)
-
-<a name="2.0.0"></a>
-# [2.0.0](https://github.com/qzb/is-animated/compare/v1.1.1...v2.0.0) (2019-03-25)
-
-
-### Bug Fixes
-
-* update dependencies ([ba173ee](https://github.com/qzb/is-animated/commit/ba173ee))
-
-
-### Chores
-
-* use convetional-commits for commit messages ([24e86b9](https://github.com/qzb/is-animated/commit/24e86b9))
+# [3.0.0](https://github.com/FRSOURCE/is-animated/compare/v2.0.0...v3.0.0) (2026-09-01)
 
 
 ### Features
 
-* add support for WebP ([e99f1c4](https://github.com/qzb/is-animated/commit/e99f1c4))
+* use @frsource/is-animated as a new source for library ([b77907f](https://github.com/FRSOURCE/is-animated/commit/b77907f7ea2e86ef7dcc1060179260dae54027a5))
+
+
+### BREAKING CHANGES
+
+* drop support for Node 20
+* drops support for CommonJS, only ESM modules supported from now on
+
+# [2.0.0](https://github.com/FRSOURCE/is-animated/compare/v1.1.29...v2.0.0) (2026-09-01)
+
+
+* feat!: placehoder for version 2.0.0 ([d71e9c3](https://github.com/FRSOURCE/is-animated/commit/d71e9c32938c0e52c886324f4cab1dd2bf666424))
+
+
+### BREAKING CHANGES
+
+* placeholder for version 2.0.0
+
+## [1.1.29](https://github.com/FRSOURCE/is-animated/compare/v1.1.28...v1.1.29) (2026-08-31)
+
+## [1.1.28](https://github.com/FRSOURCE/is-animated/compare/v1.1.27...v1.1.28) (2026-08-24)
+
+## [1.1.27](https://github.com/FRSOURCE/is-animated/compare/v1.1.26...v1.1.27) (2026-08-24)
+
+## [1.1.26](https://github.com/FRSOURCE/is-animated/compare/v1.1.25...v1.1.26) (2026-08-24)
+
+## [1.1.25](https://github.com/FRSOURCE/is-animated/compare/v1.1.24...v1.1.25) (2026-08-10)
+
+## [1.1.24](https://github.com/FRSOURCE/is-animated/compare/v1.1.23...v1.1.24) (2026-08-10)
+
+## [1.1.23](https://github.com/FRSOURCE/is-animated/compare/v1.1.22...v1.1.23) (2026-08-03)
+
+## [1.1.22](https://github.com/FRSOURCE/is-animated/compare/v1.1.21...v1.1.22) (2026-08-03)
+
+## [1.1.21](https://github.com/FRSOURCE/is-animated/compare/v1.1.20...v1.1.21) (2026-07-30)
+
+## [1.1.20](https://github.com/FRSOURCE/is-animated/compare/v1.1.19...v1.1.20) (2026-07-30)
+
+## [1.1.19](https://github.com/FRSOURCE/is-animated/compare/v1.1.18...v1.1.19) (2026-07-30)
+
+## [1.1.18](https://github.com/FRSOURCE/is-animated/compare/v1.1.17...v1.1.18) (2026-07-27)
+
+## [1.1.17](https://github.com/FRSOURCE/is-animated/compare/v1.1.16...v1.1.17) (2026-07-27)
+
+## [1.1.16](https://github.com/FRSOURCE/is-animated/compare/v1.1.15...v1.1.16) (2026-07-20)
+
+## [1.1.15](https://github.com/FRSOURCE/is-animated/compare/v1.1.14...v1.1.15) (2026-07-20)
+
+## [1.1.14](https://github.com/FRSOURCE/is-animated/compare/v1.1.13...v1.1.14) (2026-07-13)
+
+## [1.1.13](https://github.com/FRSOURCE/is-animated/compare/v1.1.12...v1.1.13) (2026-07-13)
+
+## [1.1.12](https://github.com/FRSOURCE/is-animated/compare/v1.1.11...v1.1.12) (2026-07-05)
+
+## [1.1.11](https://github.com/FRSOURCE/is-animated/compare/v1.1.10...v1.1.11) (2026-07-01)
+
+## [1.1.10](https://github.com/FRSOURCE/is-animated/compare/v1.1.9...v1.1.10) (2026-07-01)
+
+## [1.1.9](https://github.com/FRSOURCE/is-animated/compare/v1.1.8...v1.1.9) (2026-07-01)
+
+## [1.1.8](https://github.com/FRSOURCE/is-animated/compare/v1.1.7...v1.1.8) (2026-07-01)
+
+## [1.1.7](https://github.com/FRSOURCE/is-animated/compare/v1.1.6...v1.1.7) (2026-07-01)
+
+## [1.1.6](https://github.com/FRSOURCE/is-animated/compare/v1.1.5...v1.1.6) (2026-07-01)
+
+## [1.1.5](https://github.com/FRSOURCE/is-animated/compare/v1.1.4...v1.1.5) (2026-06-30)
+
+## [1.1.4](https://github.com/FRSOURCE/is-animated/compare/v1.1.3...v1.1.4) (2026-06-30)
+
+## [1.1.3](https://github.com/FRSOURCE/is-animated/compare/v1.1.2...v1.1.3) (2026-06-30)
+
+## [1.1.2](https://github.com/FRSOURCE/is-animated/compare/v1.1.1...v1.1.2) (2026-06-30)
+
+## [1.1.1](https://github.com/FRSOURCE/is-animated/compare/v1.1.0...v1.1.1) (2026-06-30)
+
+# [1.1.0](https://github.com/FRSOURCE/is-animated/compare/v1.0.5...v1.1.0) (2026-06-30)
+
+
+### Features
+
+* add AVIF support ([5eca61b](https://github.com/FRSOURCE/is-animated/commit/5eca61bb983b8f64e1273c237cdb4b42acd34690))
+
+## [1.0.5](https://github.com/FRSOURCE/is-animated/compare/v1.0.4...v1.0.5) (2025-02-04)
+
+
+### Bug Fixes
+
+* wrong package.json entrypoint ([dbb185f](https://github.com/FRSOURCE/is-animated/commit/dbb185fecbd400cdad08f847c4b0e48e26edb469))
+
+## [1.0.4](https://github.com/FRSOURCE/is-animated/compare/v1.0.3...v1.0.4) (2025-01-21)
+
+
+### Bug Fixes
+
+* add missing typings ([8cd9731](https://github.com/FRSOURCE/is-animated/commit/8cd97314a05ef7ee0929cfc42573747971279a68))
+
+## [1.0.3](https://github.com/FRSOURCE/is-animated/compare/v1.0.2...v1.0.3) (2025-01-14)
+
+
+### Bug Fixes
+
+* buffer reading in the browser environment ([cf4229d](https://github.com/FRSOURCE/is-animated/commit/cf4229d1c3a68ce5dcb702c231bceb487308bd08))
+
+## [1.0.2](https://github.com/FRSOURCE/is-animated/compare/v1.0.1...v1.0.2) (2025-01-07)
+
+## [1.0.1](https://github.com/FRSOURCE/is-animated/compare/v1.0.0...v1.0.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* prettier configuration ([04bfd06](https://github.com/FRSOURCE/is-animated/commit/04bfd06eeca8bd0ba4267aa7d3fa220e7ebacfc0))
+
+# 1.0.0 (2024-05-17)
+
+
+### Bug Fixes
+
+* apng files with multiple IDAT/fdAT chunks in single frame ([69dad3c](https://github.com/FRSOURCE/is-animated/commit/69dad3cdf9622cc0bde4ee8c716366b0eef7e627)), closes [#16](https://github.com/FRSOURCE/is-animated/issues/16)
+* update dependencies ([ba173ee](https://github.com/FRSOURCE/is-animated/commit/ba173ee0dff871f43a44ce6b5d94424dcbd100f0))
+
+
+### chore
+
+* use convetional-commits for commit messages ([24e86b9](https://github.com/FRSOURCE/is-animated/commit/24e86b93ccfcafa544b0572151c601ce234b3c16))
+
+
+### Code Refactoring
+
+* drop support for node 0.8.x ([232c2d0](https://github.com/FRSOURCE/is-animated/commit/232c2d0c5553cb2446ed14deeaf324b9ed0f343a))
+
+
+### Features
+
+* add APNG support ([16eef6b](https://github.com/FRSOURCE/is-animated/commit/16eef6b1c5b213f5be7cf3956363805c23640268))
+* add browser support ([6b64350](https://github.com/FRSOURCE/is-animated/commit/6b64350c53a4cff15db385246eb2ffb11c0fb872))
+* add support for WebP ([e99f1c4](https://github.com/FRSOURCE/is-animated/commit/e99f1c4b8cd5ef783d525f0d287b3e7063bd0364))
+* redo the implementation ([1648a4d](https://github.com/FRSOURCE/is-animated/commit/1648a4d68c87bd68ffe2e7a687cfea7dfc73f918))
+* support for GIF ([d5fae38](https://github.com/FRSOURCE/is-animated/commit/d5fae38c9f8e84dec1ab71e9c61d78eccc21d5b9))
 
 
 ### BREAKING CHANGES
 
 * drop support for following Node.js versions: 0.10.x, 0.12.x, 4.x.x, 6.x.x
-
-
-
-<a name="1.1.1"></a>
-# [1.1.1](https://github.com/qzb/is-animated/compare/v1.1.0...v1.1.1) (2019-08-30)
-
-<a name="1.1.0"></a>
-# [1.1.0](https://github.com/qzb/is-animated/compare/v1.0.0...v1.1.0) (2016-08-24)
-
-
-### Code Refactoring
-
-* drop support for node 0.8.x ([232c2d0](https://github.com/qzb/is-animated/commit/232c2d0))
-
-
-### Features
-
-* add APNG support ([16eef6b](https://github.com/qzb/is-animated/commit/16eef6b))
-
-
-### BREAKING CHANGES
-
 * support for node 0.8.x dropped
-
-<a name="1.0.0"></a>
-# 1.0.0 (2019-06-06)
-
-### Features
-
-* add APNG supportWebP ([e99f1c4](https://github.com/qzb/is-animated/commit/e99f1c4))
-* support for GIF ([d5fae38](https://github.com/qzb/is-animated/commit/d5fae38))
