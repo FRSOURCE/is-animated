@@ -3,7 +3,6 @@
  * @typedef {{
  *  subarray(begin: number, end?: number): NodeBufferLike;
  *  readUInt32BE(offset: number): number;
- *  readUInt32LE(offset: number): number;
  *  toString(encoding: 'hex' | 'utf8'): string;
  *  [index: number]: number;
  *  readonly length: number;
@@ -18,7 +17,6 @@
  *     },
  *   ): string;
  *   readUInt32BE(offset: number): number;
- *   readUInt32LE(offset: number): number;
  *   at(index: number): number;
  *   length: number;
  * }} StandardisedBuffer

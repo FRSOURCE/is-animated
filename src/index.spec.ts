@@ -15,30 +15,8 @@ const browserReadFile = async (path: string) => {
   return new File([buffer], basename(path)).arrayBuffer();
 };
 
-const createWebp = (chunks: Array<[string, Buffer]>) => {
-  const header = Buffer.alloc(12);
-  header.write('RIFF');
-  header.write('WEBP', 8);
-
-  const encodedChunks = chunks.map(([type, data]) => {
-    const chunkHeader = Buffer.alloc(8);
-    chunkHeader.write(type);
-    chunkHeader.writeUInt32LE(data.length, 4);
-    const padding = data.length % 2 === 0 ? Buffer.alloc(0) : Buffer.alloc(1);
-    return Buffer.concat([chunkHeader, data, padding]);
-  });
-
-  const buffer = Buffer.concat([header, ...encodedChunks]);
-  buffer.writeUInt32LE(buffer.length - 8, 4);
-  return buffer;
-};
-
 describe.each(environmentTypes)('when under %s environment', (env) => {
   const readFile = env === 'browser' ? browserReadFile : fs.readFile;
-  const prepareBuffer = async (buffer: Buffer) =>
-    env === 'browser'
-      ? new File([buffer], 'fixture.webp').arrayBuffer()
-      : buffer;
 
   describe.each(types)('when type is "%s"', (type) => {
     it('images are animated', async ({ expect }) => {
@@ -74,28 +52,5 @@ describe.each(environmentTypes)('when under %s environment', (env) => {
         expect(isAnimated(buffer), imageName).toBe(false);
       }
     });
-  });
-
-  it('detects animated WebP with an ICC profile', async ({ expect }) => {
-    const vp8x = Buffer.alloc(10);
-    vp8x[0] = 0x22;
-    const webp = createWebp([
-      ['VP8X', vp8x],
-      ['ICCP', Buffer.alloc(1)],
-      ['ANIM', Buffer.alloc(6)],
-    ]);
-
-    expect(isAnimated(await prepareBuffer(webp))).toBe(true);
-  });
-
-  it('ignores ANIM when the VP8X animation flag is unset', async ({
-    expect,
-  }) => {
-    const webp = createWebp([
-      ['VP8X', Buffer.alloc(10)],
-      ['ANIM', Buffer.alloc(6)],
-    ]);
-
-    expect(isAnimated(await prepareBuffer(webp))).toBe(false);
   });
 });

@@ -17,7 +17,6 @@ const toStandardisedBuffer = (buffer) => {
       read: (begin, end, { encoding = 'utf8' } = {}) =>
         buffer.subarray(begin, end).toString(encoding),
       readUInt32BE: (offset) => buffer.readUInt32BE(offset),
-      readUInt32LE: (offset) => buffer.readUInt32LE(offset),
       at: (i) => buffer[i],
       length: buffer.length,
     };
@@ -42,13 +41,6 @@ const toStandardisedBuffer = (buffer) => {
         array.byteOffset,
         array.byteLength,
       ).getUint32(offset),
-    readUInt32LE: (offset) =>
-      new DataView(
-        /** @type {ArrayBuffer} */
-        (buffer),
-        array.byteOffset,
-        array.byteLength,
-      ).getUint32(offset, true),
     at: (i) => array[i],
     length: array.length,
   };

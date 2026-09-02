@@ -40,7 +40,7 @@ export const isAnimated = (buffer) => {
           return false;
         }
 
-        // ACTL and IDAT are guaranteed by the checks above.
+        // Return early since all 3 conditions met (ACTL, IDAT, fdAT).
         return true;
     }
 
