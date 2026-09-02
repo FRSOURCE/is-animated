@@ -10,7 +10,6 @@ export const isPNG = (buffer) => {
 export const isAnimated = (buffer) => {
   let hasACTL = false;
   let hasIDAT = false;
-  let hasFDAT = false;
 
   /** @type {string | undefined} */
   let previousChunkType;
@@ -41,13 +40,13 @@ export const isAnimated = (buffer) => {
           return false;
         }
 
-        hasFDAT = true;
-        break;
+        // Return early since all 3 conditions met (ACTL, IDAT, fdAT).
+        return true;
     }
 
     previousChunkType = chunkType;
     offset += 4 + 4 + chunkLength + 4;
   }
 
-  return hasACTL && hasIDAT && hasFDAT;
+  return false;
 };
