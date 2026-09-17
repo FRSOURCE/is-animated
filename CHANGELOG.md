@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/FRSOURCE/is-animated/compare/v3.0.2...v3.0.3) (2026-09-17)
+
+
+### Bug Fixes
+
+* improve performance of png ([#49](https://github.com/FRSOURCE/is-animated/issues/49)) ([ac12604](https://github.com/FRSOURCE/is-animated/commit/ac126041a1b5ee1dd05438c6dffbd1de751dc499))
+
 ## [3.0.2](https://github.com/FRSOURCE/is-animated/compare/v3.0.1...v3.0.2) (2026-09-14)
 
 ## [3.0.1](https://github.com/FRSOURCE/is-animated/compare/v3.0.0...v3.0.1) (2026-09-14)
