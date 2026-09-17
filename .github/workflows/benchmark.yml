@@ -1,0 +1,77 @@
+name: Benchmark
+on:
+  pull_request:
+    branches:
+      - main
+
+# The token stays read-only: this job runs untrusted PR code. Results are
+# uploaded as an artifact and posted to the PR by benchmark-comment.yml.
+permissions:
+  contents: read
+
+concurrency:
+  group: benchmark-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    name: benchmark PR vs main
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Checkout base branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: baseline
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+      # The library has no runtime dependencies, so no install is needed.
+      - name: Run benchmark
+        id: benchmark
+        continue-on-error: true
+        run: |
+          node --expose-gc benchmark/index.mjs \
+            --baseline baseline/src/index.mjs \
+            --baseline-label main \
+            --current-label PR \
+            --json benchmark-results/results.json \
+            --markdown benchmark-results/results.md
+      - name: Record PR metadata
+        if: ${{ always() }}
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          OUTCOME: ${{ steps.benchmark.outcome }}
+        run: |
+          mkdir -p benchmark-results
+          printf '{"number":%s,"headSha":"%s","outcome":"%s"}\n' \
+            "$PR_NUMBER" "$HEAD_SHA" "$OUTCOME" > benchmark-results/pr.json
+      - name: Write job summary
+        if: ${{ always() }}
+        run: |
+          if [ -f benchmark-results/results.md ]; then
+            cat benchmark-results/results.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Benchmark did not produce results." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-results
+          path: benchmark-results/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Fail on regression
+        if: ${{ steps.benchmark.outcome == 'failure' }}
+        run: |
+          echo "::error::Benchmark failed: performance regression or runtime error. See the job summary or the benchmark-results artifact."
+          exit 1

@@ -1,298 +1,282 @@
-import { deflateSync } from 'node:zlib';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { cpus } from 'node:os';
+import { dirname, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { parseArgs } from 'node:util';
 import isAnimated from '../src/index.mjs';
-import * as avif from '../src/utils/avif.mjs';
-import * as gif from '../src/utils/gif.mjs';
-import * as png from '../src/utils/png.mjs';
-import * as webp from '../src/utils/webp.mjs';
+import { exportRef, fetchRef } from './baseline.mjs';
+import { createFixtures, formatBytes } from './fixtures.mjs';
+import { compareFixture } from './harness.mjs';
 
-const PNG_SIGNATURE = Buffer.from([
-  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
-]);
+const USAGE = `Usage: node --expose-gc benchmark/index.mjs [options]
 
-const CRC_TABLE = Uint32Array.from({ length: 256 }, (_, value) => {
-  let crc = value;
-  for (let bit = 0; bit < 8; bit++) {
-    crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+Options:
+  --baseline <path>        Path to a baseline src/index.mjs to compare against.
+                           Without a baseline only the current code is timed.
+  --baseline-ref <ref>     Git ref (e.g. origin/main, HEAD~1, a tag or a sha)
+                           whose src/ tree is exported to a temporary directory
+                           and used as the baseline. A <remote>/<branch> ref is
+                           fetched first. Mutually exclusive with --baseline.
+  --no-fetch               Skip the fetch attempt for --baseline-ref
+  --baseline-label <name>  Column label for the baseline
+                           (default: the --baseline-ref value or "baseline")
+  --current-label <name>   Column label for the current code (default: current)
+  --json <file>            Write a JSON report to <file>
+  --markdown <file>        Write the Markdown report to <file>
+  --max-regression <n>     Fail when current/baseline exceeds <n>
+                           (default: $BENCHMARK_MAX_REGRESSION or 1.25)
+  --min-delta-ns <n>       Ignore regressions slower by less than <n> ns
+                           (default: $BENCHMARK_MIN_DELTA_NS or 500)
+  --rounds <n>             Timed rounds per fixture and side (default: 9)
+  --help                   Show this help
+`;
+
+const EXIT_REGRESSION = 1;
+const EXIT_USAGE = 2;
+
+const fail = (message) => {
+  process.stderr.write(`${message}\n`);
+  process.exit(EXIT_USAGE);
+};
+
+const parseNumber = (name, value, fallback) => {
+  if (value === undefined) return fallback;
+  const number = Number(value);
+  if (!Number.isFinite(number) || number < 0) {
+    fail(`Invalid value for --${name}: ${value}`);
   }
-  return crc >>> 0;
-});
+  return number;
+};
 
-const crc32 = (buffers) => {
-  let crc = 0xffffffff;
-  for (const buffer of buffers) {
-    for (const byte of buffer) {
-      crc = CRC_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+let args;
+try {
+  args = parseArgs({
+    strict: true,
+    allowPositionals: false,
+    options: {
+      baseline: { type: 'string' },
+      'baseline-ref': { type: 'string' },
+      'no-fetch': { type: 'boolean', default: false },
+      'baseline-label': { type: 'string' },
+      'current-label': { type: 'string', default: 'current' },
+      json: { type: 'string' },
+      markdown: { type: 'string' },
+      'max-regression': { type: 'string' },
+      'min-delta-ns': { type: 'string' },
+      rounds: { type: 'string' },
+      help: { type: 'boolean', default: false },
+    },
+  }).values;
+} catch (error) {
+  fail(`${error instanceof Error ? error.message : String(error)}\n\n${USAGE}`);
+}
+
+if (args.help) {
+  process.stdout.write(USAGE);
+  process.exit(0);
+}
+
+if (args.baseline && args['baseline-ref']) {
+  fail('--baseline and --baseline-ref are mutually exclusive');
+}
+
+const labels = {
+  baseline: args['baseline-label'] ?? args['baseline-ref'] ?? 'baseline',
+  current: args['current-label'],
+};
+const thresholds = {
+  maxRegression: parseNumber(
+    'max-regression',
+    args['max-regression'] ?? process.env.BENCHMARK_MAX_REGRESSION,
+    1.25,
+  ),
+  minDeltaNs: parseNumber(
+    'min-delta-ns',
+    args['min-delta-ns'] ?? process.env.BENCHMARK_MIN_DELTA_NS,
+    500,
+  ),
+};
+const rounds = parseNumber('rounds', args.rounds, 9);
+if (rounds < 1) fail('--rounds must be at least 1');
+
+/** @type {import('./harness.mjs').IsAnimated | undefined} */
+let baseline;
+/** @type {string | undefined} */
+let baselinePath = args.baseline
+  ? resolve(process.cwd(), args.baseline)
+  : undefined;
+/** @type {{ ref: string, commit: string } | undefined} */
+let baselineRef;
+if (args['baseline-ref']) {
+  const ref = args['baseline-ref'];
+  if (!args['no-fetch']) fetchRef(ref);
+  try {
+    const exported = exportRef(ref);
+    baselinePath = exported.entry;
+    baselineRef = { ref, commit: exported.commit };
+    process.stderr.write(
+      `Baseline: ${ref} (${exported.commit.slice(0, 7)}) exported to ${exported.dir}\n`,
+    );
+  } catch (error) {
+    fail(error instanceof Error ? error.message : String(error));
+  }
+}
+if (baselinePath) {
+  try {
+    const module = await import(pathToFileURL(baselinePath).href);
+    if (typeof module.default !== 'function') {
+      throw new TypeError('module has no default export function');
     }
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-};
-
-const createChunk = (type, data = Buffer.alloc(0)) => {
-  const typeBuffer = Buffer.from(type);
-  const chunk = Buffer.alloc(12 + data.length);
-  chunk.writeUInt32BE(data.length, 0);
-  typeBuffer.copy(chunk, 4);
-  data.copy(chunk, 8);
-  chunk.writeUInt32BE(crc32([typeBuffer, data]), 8 + data.length);
-  return chunk;
-};
-
-const createIHDR = () => {
-  const data = Buffer.alloc(13);
-  data.writeUInt32BE(1, 0);
-  data.writeUInt32BE(1, 4);
-  data[8] = 8;
-  data[9] = 6;
-  return createChunk('IHDR', data);
-};
-
-const createACTL = () => {
-  const data = Buffer.alloc(8);
-  data.writeUInt32BE(2, 0);
-  return createChunk('acTL', data);
-};
-
-const createFCTL = (sequenceNumber) => {
-  const data = Buffer.alloc(26);
-  data.writeUInt32BE(sequenceNumber, 0);
-  data.writeUInt32BE(1, 4);
-  data.writeUInt32BE(1, 8);
-  data.writeUInt16BE(1, 20);
-  data.writeUInt16BE(10, 22);
-  return createChunk('fcTL', data);
-};
-
-const createFDAT = (sequenceNumber, imageData) => {
-  const data = Buffer.alloc(4 + imageData.length);
-  data.writeUInt32BE(sequenceNumber, 0);
-  imageData.copy(data, 4);
-  return createChunk('fdAT', data);
-};
-
-const createTextChunks = (encodedSize, count) => {
-  const minimumDataSize = Buffer.byteLength('benchmark') + 1;
-  const minimumChunkSize = minimumDataSize + 12;
-  if (encodedSize < minimumChunkSize * count) {
-    throw new RangeError('Not enough space for PNG text chunks');
-  }
-
-  const baseChunkSize = Math.floor(encodedSize / count);
-  let remainder = encodedSize % count;
-  return Array.from({ length: count }, () => {
-    const chunkSize = baseChunkSize + (remainder-- > 0 ? 1 : 0);
-    const data = Buffer.alloc(chunkSize - 12, 0x78);
-    data.write('benchmark');
-    data[Buffer.byteLength('benchmark')] = 0;
-    return createChunk('tEXt', data);
-  });
-};
-
-const createAnimatedPNG = (targetSize, metadataChunkCount) => {
-  const redPixel = deflateSync(Buffer.from([0, 0xff, 0, 0, 0xff]));
-  const bluePixel = deflateSync(Buffer.from([0, 0, 0, 0xff, 0xff]));
-  const fixedChunks = [
-    createIHDR(),
-    createACTL(),
-    createFCTL(0),
-    createChunk('IDAT', redPixel),
-    createFCTL(1),
-    createFDAT(2, bluePixel),
-  ];
-  const endChunk = createChunk('IEND');
-  const fixedSize =
-    PNG_SIGNATURE.length +
-    fixedChunks.reduce((total, chunk) => total + chunk.length, 0) +
-    endChunk.length;
-  const metadataChunks = createTextChunks(
-    targetSize - fixedSize,
-    metadataChunkCount,
-  );
-  return Buffer.concat([
-    PNG_SIGNATURE,
-    ...fixedChunks,
-    ...metadataChunks,
-    endChunk,
-  ]);
-};
-
-const createStaticPNG = (targetSize) => {
-  const imageData = deflateSync(Buffer.from([0, 0, 0, 0, 0xff]));
-  const fixedChunks = [
-    createIHDR(),
-    createChunk('IDAT', imageData),
-    createChunk('IEND'),
-  ];
-  const fixedSize =
-    PNG_SIGNATURE.length +
-    fixedChunks.reduce((total, chunk) => total + chunk.length, 0);
-  const metadataChunks = createTextChunks(targetSize - fixedSize, 1);
-  return Buffer.concat([
-    PNG_SIGNATURE,
-    fixedChunks[0],
-    ...metadataChunks,
-    fixedChunks[1],
-    fixedChunks[2],
-  ]);
-};
-
-const toStandardisedBuffer = (buffer) => ({
-  read: (begin, end, { encoding = 'utf8' } = {}) =>
-    buffer.subarray(begin, end).toString(encoding),
-  readUInt32BE: (offset) => buffer.readUInt32BE(offset),
-  at: (index) => buffer[index],
-  length: buffer.length,
-});
-
-const isPNGAnimatedBeforeEarlyReturn = (buffer) => {
-  let hasACTL = false;
-  let hasIDAT = false;
-  let hasFDAT = false;
-  let previousChunkType;
-  let offset = 8;
-
-  while (offset < buffer.length) {
-    const chunkLength = buffer.readUInt32BE(offset);
-    const chunkType = buffer.read(offset + 4, offset + 8);
-
-    switch (chunkType) {
-      case 'acTL':
-        hasACTL = true;
-        break;
-      case 'IDAT':
-        if (!hasACTL) return false;
-        if (previousChunkType !== 'fcTL' && previousChunkType !== 'IDAT') {
-          return false;
-        }
-        hasIDAT = true;
-        break;
-      case 'fdAT':
-        if (!hasIDAT) return false;
-        if (previousChunkType !== 'fcTL' && previousChunkType !== 'fdAT') {
-          return false;
-        }
-        hasFDAT = true;
-        break;
-    }
-
-    previousChunkType = chunkType;
-    offset += 12 + chunkLength;
-  }
-
-  return hasACTL && hasIDAT && hasFDAT;
-};
-
-const isAnimatedBeforeEarlyReturn = (buffer) => {
-  const standardisedBuffer = toStandardisedBuffer(buffer);
-  if (gif.isGIF(standardisedBuffer)) return gif.isAnimated(standardisedBuffer);
-  if (png.isPNG(standardisedBuffer)) {
-    return isPNGAnimatedBeforeEarlyReturn(standardisedBuffer);
-  }
-  if (webp.isWebp(standardisedBuffer)) {
-    return webp.isAnimated(standardisedBuffer);
-  }
-  if (avif.isAvif(standardisedBuffer)) {
-    return avif.isAnimated(standardisedBuffer);
-  }
-  return false;
-};
-
-const median = (values) => {
-  const sorted = [...values].sort((left, right) => left - right);
-  return sorted[Math.floor(sorted.length / 2)];
-};
-
-const time = (callback, iterations) => {
-  const start = process.hrtime.bigint();
-  let result = false;
-  for (let iteration = 0; iteration < iterations; iteration++) {
-    result = callback();
-  }
-  const nanoseconds = Number(process.hrtime.bigint() - start) / iterations;
-  if (typeof result !== 'boolean') throw new TypeError('Expected a boolean');
-  return nanoseconds;
-};
-
-const calibrate = (callback) => {
-  let iterations = 100;
-  let elapsed = time(callback, iterations) * iterations;
-  while (elapsed < 50e6 && iterations < 1e7) {
-    iterations *= 10;
-    elapsed = time(callback, iterations) * iterations;
-  }
-  return Math.max(
-    100,
-    Math.min(1e7, Math.round((iterations * 250e6) / elapsed)),
-  );
-};
-
-const benchmark = (name, buffer) => {
-  const beforeResult = isAnimatedBeforeEarlyReturn(buffer);
-  const afterResult = isAnimated(buffer);
-  if (beforeResult !== afterResult) {
-    throw new Error(
-      `${name} output mismatch: ${beforeResult} before, ${afterResult} after`,
+    baseline = module.default;
+  } catch (error) {
+    fail(
+      `Could not load baseline from ${baselinePath}: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
+}
 
-  for (let iteration = 0; iteration < 1000; iteration++) {
-    isAnimatedBeforeEarlyReturn(buffer);
-    isAnimated(buffer);
+// ---------------------------------------------------------------------------
+// Run
+// ---------------------------------------------------------------------------
+
+const classify = ({ baselineNs, currentNs, mismatch }) => {
+  if (baselineNs === undefined) return 'measured';
+  if (mismatch) return 'mismatch';
+  const ratio = currentNs / baselineNs;
+  if (ratio > thresholds.maxRegression) {
+    return currentNs - baselineNs >= thresholds.minDeltaNs
+      ? 'regression'
+      : 'slower';
   }
-
-  const beforeIterations = calibrate(() => isAnimatedBeforeEarlyReturn(buffer));
-  const afterIterations = calibrate(() => isAnimated(buffer));
-  const beforeSamples = [];
-  const afterSamples = [];
-
-  for (let round = 0; round < 9; round++) {
-    global.gc();
-    if (round % 2 === 0) {
-      beforeSamples.push(
-        time(() => isAnimatedBeforeEarlyReturn(buffer), beforeIterations),
-      );
-      afterSamples.push(time(() => isAnimated(buffer), afterIterations));
-    } else {
-      afterSamples.push(time(() => isAnimated(buffer), afterIterations));
-      beforeSamples.push(
-        time(() => isAnimatedBeforeEarlyReturn(buffer), beforeIterations),
-      );
-    }
-  }
-
-  const beforeNanoseconds = median(beforeSamples);
-  const afterNanoseconds = median(afterSamples);
-  return {
-    name,
-    beforeMicroseconds: beforeNanoseconds / 1000,
-    afterMicroseconds: afterNanoseconds / 1000,
-    speedup: beforeNanoseconds / afterNanoseconds,
-  };
+  if (ratio < 1 / thresholds.maxRegression) return 'faster';
+  return 'neutral';
 };
 
-const fixtures = [
-  {
-    name: '15.3 MiB animated PNG',
-    buffer: createAnimatedPNG(Math.round(15.3 * 1024 * 1024), 850),
-  },
-  {
-    name: '521-byte animated PNG',
-    buffer: createAnimatedPNG(521, 1),
-  },
-  {
-    name: '31.2 MiB static PNG',
-    buffer: createStaticPNG(Math.round(31.2 * 1024 * 1024)),
-  },
-];
+const results = createFixtures().map(({ buffer, ...fixture }) => {
+  process.stderr.write(`Benchmarking ${fixture.name}...\n`);
+  const timing = compareFixture(buffer, {
+    current: isAnimated,
+    baseline,
+    rounds,
+  });
+  const ratio =
+    timing.baselineNs === undefined
+      ? undefined
+      : timing.currentNs / timing.baselineNs;
+  return {
+    ...fixture,
+    bytes: buffer.length,
+    ...timing,
+    ratio,
+    changePercent: ratio === undefined ? undefined : (ratio - 1) * 100,
+    deltaNs:
+      timing.baselineNs === undefined
+        ? undefined
+        : timing.currentNs - timing.baselineNs,
+    status: classify(timing),
+  };
+});
 
-const results = fixtures.map(({ name, buffer }) => benchmark(name, buffer));
+const regressions = results
+  .filter((result) => result.status === 'regression')
+  .map((result) => result.name);
 
-const output = [
-  '| Fixture | Before | After | Improvement |',
-  '|---|---:|---:|---:|',
-];
-for (const result of results) {
-  output.push(
-    `| ${result.name} | ${result.beforeMicroseconds.toFixed(2)} µs | ${result.afterMicroseconds.toFixed(2)} µs | **${result.speedup.toFixed(2)}×** |`,
+// ---------------------------------------------------------------------------
+// Report
+// ---------------------------------------------------------------------------
+
+const formatMicroseconds = (nanoseconds) =>
+  `${(nanoseconds / 1000).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })} µs`;
+
+const formatChange = (result) => {
+  if (result.status === 'mismatch') {
+    return `output differs (${labels.baseline}: ${result.baselineResult}, ${labels.current}: ${result.currentResult})`;
+  }
+  const sign = result.changePercent >= 0 ? '+' : '';
+  const change = `${result.ratio.toFixed(2)}x (${sign}${result.changePercent.toFixed(1)}%)`;
+  switch (result.status) {
+    case 'regression':
+      return `${change} **REGRESSION**`;
+    case 'slower':
+      return `${change} slower (below noise floor)`;
+    case 'faster':
+      return `${change} faster`;
+    default:
+      return change;
+  }
+};
+
+const environment = [
+  `Node ${process.version}, ${process.platform} ${process.arch}, ${cpus()[0]?.model ?? 'unknown CPU'}`,
+  baselineRef &&
+    `${labels.baseline}${labels.baseline === baselineRef.ref ? '' : ` = ${baselineRef.ref}`} at ${baselineRef.commit.slice(0, 7)}`,
+]
+  .filter(Boolean)
+  .join('. ');
+
+const markdownLines = baseline
+  ? [
+      `| Fixture | Size | ${labels.baseline} | ${labels.current} | Change |`,
+      '|---|---:|---:|---:|---:|',
+      ...results.map(
+        (result) =>
+          `| ${result.name} | ${formatBytes(result.bytes)} | ${formatMicroseconds(result.baselineNs)} | ${formatMicroseconds(result.currentNs)} | ${formatChange(result)} |`,
+      ),
+      '',
+      `Regression rule: ${labels.current}/${labels.baseline} > ${thresholds.maxRegression.toFixed(2)}x and at least ${formatMicroseconds(thresholds.minDeltaNs)} slower. ${environment}.`,
+    ]
+  : [
+      `| Fixture | Size | ${labels.current} |`,
+      '|---|---:|---:|',
+      ...results.map(
+        (result) =>
+          `| ${result.name} | ${formatBytes(result.bytes)} | ${formatMicroseconds(result.currentNs)} |`,
+      ),
+      '',
+      `${environment}.`,
+    ];
+const markdown = `${markdownLines.join('\n')}\n`;
+
+const writeReport = (file, content) => {
+  const path = resolve(process.cwd(), file);
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, content);
+};
+
+if (args.markdown) writeReport(args.markdown, markdown);
+if (args.json) {
+  writeReport(
+    args.json,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        node: process.version,
+        platform: `${process.platform} ${process.arch}`,
+        cpu: cpus()[0]?.model ?? null,
+        labels,
+        baselinePath: baselinePath ?? null,
+        baselineRef: baselineRef?.ref ?? null,
+        baselineCommit: baselineRef?.commit ?? null,
+        thresholds,
+        rounds,
+        results,
+        regressions,
+        passed: regressions.length === 0,
+      },
+      null,
+      2,
+    )}\n`,
   );
 }
-process.stdout.write(`${output.join('\n')}\n`);
+
+process.stdout.write(markdown);
+
+if (regressions.length > 0) {
+  process.stderr.write(
+    `\nPerformance regression detected in ${regressions.length} fixture(s):\n${regressions.map((name) => `  - ${name}`).join('\n')}\n`,
+  );
+  process.exit(EXIT_REGRESSION);
+}
