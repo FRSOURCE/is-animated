@@ -1,6 +1,6 @@
 {
   "name": "is-animated",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "Detects animated images in browser & node. Supports GIF, APNG, WebP & AVIF",
   "sideEffects": false,
   "exports": {
