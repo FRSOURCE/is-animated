@@ -59,8 +59,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@frsource/eslint-config": "1.85.13",
-    "@frsource/prettier-config": "1.47.12",
+    "@frsource/eslint-config": "1.85.14",
+    "@frsource/prettier-config": "1.47.13",
     "@frsource/semantic-release-config": "1.116.23",
     "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "^4.0.0",
