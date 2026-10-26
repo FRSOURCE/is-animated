@@ -82,7 +82,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@11.28.6",
+  "packageManager": "pnpm@11.28.8",
   "files": [
     "dist",
     "src/*.mjs",
