@@ -61,7 +61,7 @@
   "devDependencies": {
     "@frsource/eslint-config": "1.86.0",
     "@frsource/prettier-config": "1.48.0",
-    "@frsource/semantic-release-config": "1.117.3",
+    "@frsource/semantic-release-config": "1.117.4",
     "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "^4.0.0",
     "chokidar": "^5.0.0",
