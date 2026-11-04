@@ -1,3 +1,10 @@
+## [3.0.19](https://github.com/FRSOURCE/is-animated/compare/v3.0.18...v3.0.19) (2026-11-04)
+
+
+### Bug Fixes
+
+* detect animated WebP with color profiles ([#70](https://github.com/FRSOURCE/is-animated/issues/70)) ([7f6714c](https://github.com/FRSOURCE/is-animated/commit/7f6714caf04db8dfb240ed860051bce36f38bcde))
+
 ## [3.0.18](https://github.com/FRSOURCE/is-animated/compare/v3.0.17...v3.0.18) (2026-11-03)
 
 ## [3.0.17](https://github.com/FRSOURCE/is-animated/compare/v3.0.16...v3.0.17) (2026-11-02)
