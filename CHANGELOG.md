@@ -1,3 +1,5 @@
+## [3.0.20](https://github.com/FRSOURCE/is-animated/compare/v3.0.19...v3.0.20) (2026-11-09)
+
 ## [3.0.19](https://github.com/FRSOURCE/is-animated/compare/v3.0.18...v3.0.19) (2026-11-04)
 
 
