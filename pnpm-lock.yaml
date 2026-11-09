@@ -15,8 +15,8 @@ importers:
         specifier: 1.48.0
         version: 1.48.0(prettier@3.9.10)
       '@frsource/semantic-release-config':
-        specifier: 1.117.5
-        version: 1.117.5(semantic-release@25.0.9(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)
+        specifier: 1.117.7
+        version: 1.117.7(semantic-release@25.0.9(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
@@ -728,8 +728,8 @@ packages:
     peerDependencies:
       prettier: '>= 3'
 
-  '@frsource/semantic-release-config@1.117.5':
-    resolution: {integrity: sha512-UFx4MocXZSUg0FlpPvF4t2LL9+w4dJC26kzNTgv5rQeSV/grc5HPboHcnSN3wIVWDtfMrp4bWS2csqu0mBbl5A==}
+  '@frsource/semantic-release-config@1.117.7':
+    resolution: {integrity: sha512-7ydmOzlS+b1H4e+BSfMkIu+AiYNbtH1fNhHFOHhtwyUeRBaffoJSsy62+B3oRXxngJrRyM9CyUshkA3svIz9vw==}
     peerDependencies:
       semantic-release: '>= 24'
 
@@ -5287,7 +5287,7 @@ snapshots:
     dependencies:
       prettier: 3.9.10
 
-  '@frsource/semantic-release-config@1.117.5(semantic-release@25.0.9(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)':
+  '@frsource/semantic-release-config@1.117.7(semantic-release@25.0.9(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)':
     dependencies:
       '@semantic-release/changelog': 7.0.0(semantic-release@25.0.9(supports-color@10.2.2)(typescript@6.0.3))
       '@semantic-release/commit-analyzer': 13.0.1(semantic-release@25.0.9(supports-color@10.2.2)(typescript@6.0.3))(supports-color@10.2.2)
