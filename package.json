@@ -74,7 +74,7 @@
     "prettier": "3.9.10",
     "rimraf": "6.1.4",
     "semantic-release": "25.0.9",
-    "serve": "14.2.7",
+    "serve": "14.2.8",
     "shiki": "4.5.0",
     "typescript": "6.0.3",
     "vitest": "4.1.12"
@@ -82,7 +82,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@11.28.11",
+  "packageManager": "pnpm@11.28.12",
   "files": [
     "dist",
     "src/*.mjs",
