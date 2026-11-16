@@ -16,7 +16,7 @@ export const isAnimated = (buffer) => {
 
   let offset = 8;
 
-  while (offset < buffer.length) {
+  while (offset + 8 <= buffer.length) {
     const chunkLength = buffer.readUInt32BE(offset);
     const chunkType = buffer.read(offset + 4, offset + 8);
 
@@ -26,10 +26,6 @@ export const isAnimated = (buffer) => {
         break;
       case 'IDAT':
         if (!hasACTL) return false;
-
-        if (previousChunkType !== 'fcTL' && previousChunkType !== 'IDAT') {
-          return false;
-        }
 
         hasIDAT = true;
         break;
