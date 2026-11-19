@@ -1,3 +1,10 @@
+## [3.0.22](https://github.com/FRSOURCE/is-animated/compare/v3.0.21...v3.0.22) (2026-11-19)
+
+
+### Bug Fixes
+
+* detect APNG without fcTL before IDAT and avoid reading past buffer end ([#75](https://github.com/FRSOURCE/is-animated/issues/75)) ([fabf76c](https://github.com/FRSOURCE/is-animated/commit/fabf76c4af291c0df39b1400df9f7420c10e0b6f))
+
 ## [3.0.21](https://github.com/FRSOURCE/is-animated/compare/v3.0.20...v3.0.21) (2026-11-16)
 
 ## [3.0.20](https://github.com/FRSOURCE/is-animated/compare/v3.0.19...v3.0.20) (2026-11-09)
